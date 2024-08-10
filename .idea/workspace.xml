@@ -5,25 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea2b2d4b-3cfc-4553-be0d-c081f19cd01e" name="Changes" comment="Django Shell">
-      <change afterPath="$PROJECT_DIR$/.idea/Forge.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Forge/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Forge/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Forge/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Forge/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Forge/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.my_pgpass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/website/templates/website/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/website/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Forge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Forge/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,11 +24,28 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "AnthonyLaravel"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/AnthonyLaravel/Forge.git",
+    "accountId": "8c06dfc1-3fb3-45bc-b270-df03450d2c59"
+  }
+}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2kScIQhDjyjMbgr0cr9tYMRmvaq" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -49,7 +54,8 @@
   "keyToString": {
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/anthonygrady/PycharmProjects/Forge",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -59,6 +65,16 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.venv" />
+      <recent name="$PROJECT_DIR$/Forge" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Forge" type="Python.DjangoServer" factoryName="Django server">
       <module name="Forge" />
@@ -101,8 +117,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723280337814</updated>
-      <workItem from="1723280350994" duration="1063000" />
+      <workItem from="1723280350994" duration="16049000" />
     </task>
+    <task id="LOCAL-00001" summary="Django Shell">
+      <option name="closed" value="true" />
+      <created>1723281498252</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723281498252</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
