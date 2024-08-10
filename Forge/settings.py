@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'psycopg2',
     'website.apps.WebsiteConfig',
+    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [

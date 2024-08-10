@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from .forms import SignUpForm
+
 
 # Create your views here.
 def index(request):
@@ -39,20 +41,18 @@ def user_registration(request):
         return redirect('index')
     else:
         if request.method == 'POST':
-            username = request.POST['username']
-            email = request.POST['email']
-            password = request.POST['password']
-            password2 = request.POST['<PASSWORD>']
-            if password == password2:
-                if User.objects.filter(username=username).exists():
-                    messages.error(request, 'Username already taken')
-                    return redirect('user_register')
-                else:
-                    user = User.objects.create_user(username, email, password)
-                    user.save()
-                    login(request, user)
-                    messages.success(request, 'You are now logged in')
-                    return redirect('index')
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                messages.success(request, 'Rest easy traveler, your credentials have been verified. Welcome to the forge!')
+                return redirect('index')
         else:
-            return render(request, 'website/registration.html', {})
+            form = SignUpForm()
+            return render(request, 'website/registration.html', {'form': form})
+
+        return render(request, 'website/registration.html', {'form': form})
 

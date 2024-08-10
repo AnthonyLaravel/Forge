@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea2b2d4b-3cfc-4553-be0d-c081f19cd01e" name="Changes" comment="Django Shell">
-      <change afterPath="$PROJECT_DIR$/templates/website/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/website/base_nav.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/website/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/website/registration.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/website/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/templates/website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/website/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Forge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/website/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/website/registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/website/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +121,7 @@
       <updated>1723280337814</updated>
       <workItem from="1723280350994" duration="17113000" />
       <workItem from="1723304104368" duration="6000" />
-      <workItem from="1723304121736" duration="11180000" />
+      <workItem from="1723304121736" duration="13395000" />
     </task>
     <task id="LOCAL-00001" summary="Django Shell">
       <option name="closed" value="true" />
