@@ -22,6 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-287++78pqp70ns))s7!4uu=haiu*%z8a2^@eubvfagq$h)a*0m'
 
+# OPENAI API KEY: keep this a secret! Maybe store in a YAML file later on.
+OPENAI_API_KEY = 'sk-proj-UmhGVdKc2WsgbVurek59T3BlbkFJabrWpLU3oReDNz3WmX3V'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'member.apps.MemberConfig',
     'listings.apps.ListingsConfig',
     'chatgpt.apps.ChatgptConfig',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -124,6 +128,19 @@ EBAY_CLIENT_CREDENTIALS = 'Base64 encoded client_id:client_secret'
 EBAY_REDIRECT_URI = 'Your redirect URI'
 EBAY_SCOPE = 'https://api.ebay.com/oauth/api_scope'
 
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = 'AKIAXQQREP4IBWB6A3KE'
+AWS_SECRET_ACCESS_KEY = 'Nk4Iw03ExsCb40wuyrEb3n1gWB+kVOqvNZA5FoWL'
+AWS_STORAGE_BUCKET_NAME = 'listingforge'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+# django-storages settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_ROOT = 'media/'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

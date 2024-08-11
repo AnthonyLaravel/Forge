@@ -19,3 +19,12 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Image(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='listing_images')
+    alt_text = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"Image for {self.listing.title}"
