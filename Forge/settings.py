@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'psycopg2',
     'website.apps.WebsiteConfig',
     'dashboard.apps.DashboardConfig',
+    'ebay.apps.EbayConfig',
+    'member.apps.MemberConfig',
+    'listings.apps.ListingsConfig',
+    'chatgpt.apps.ChatgptConfig',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# eBay API settings
+EBAY_CLIENT_ID = 'Your eBay Client ID'
+EBAY_CLIENT_CREDENTIALS = 'Base64 encoded client_id:client_secret'
+EBAY_REDIRECT_URI = 'Your redirect URI'
+EBAY_SCOPE = 'https://api.ebay.com/oauth/api_scope'
 
 
 # Internationalization

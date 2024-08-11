@@ -13,7 +13,7 @@ def index(request):
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('dashboard')
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -22,7 +22,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'You are now logged in')
-            return redirect('index')
+            return redirect('dashboard')
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login')
@@ -38,7 +38,7 @@ def user_logout(request):
 
 def user_registration(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('dashboard')
     else:
         if request.method == 'POST':
             form = SignUpForm(request.POST)
@@ -49,7 +49,7 @@ def user_registration(request):
                 user = authenticate(username=username, password=password)
                 login(request, user)
                 messages.success(request, 'Rest easy traveler, your credentials have been verified. Welcome to the forge!')
-                return redirect('index')
+                return redirect('dashboard')
         else:
             form = SignUpForm()
             return render(request, 'website/registration.html', {'form': form})

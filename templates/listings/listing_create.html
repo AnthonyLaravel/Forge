@@ -1,0 +1,11 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+  <h2>{% if form.instance.pk %}Update{% else %}Create{% endif %} Listing</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if form.instance.pk %}Update{% else %}Create{% endif %} Listing</button>
+  </form>
+  <a href="{% url 'listing_list' %}">Back to Listings</a>
+{% endblock %}

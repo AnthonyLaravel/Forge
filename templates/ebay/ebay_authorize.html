@@ -1,0 +1,19 @@
+<!-- templates/ebay_authorize.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorize eBay Account</title>
+</head>
+<body>
+    <h1>Authorize Your eBay Account</h1>
+    <p>
+        To proceed, you need to authorize your eBay account. Click the button below to be redirected to eBay's authorization page.
+    </p>
+    <form action="{% url 'ebay_authorize' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Authorize with eBay</button>
+    </form>
+</body>
+</html>

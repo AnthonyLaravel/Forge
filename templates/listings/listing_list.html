@@ -1,0 +1,17 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+  <h2>Your Listings</h2>
+  <a href="{% url 'listing_create' %}">Create New Listing</a>
+  <ul>
+    {% for listing in listings %}
+      <li>
+        <a href="{% url 'listing_update' listing.pk %}">{{ listing.title }}</a> - ${{ listing.price }}
+        <form action="{% url 'listing_delete' listing.pk %}" method="POST" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

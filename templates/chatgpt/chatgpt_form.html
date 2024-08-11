@@ -1,0 +1,12 @@
+<!-- chatgpt/templates/chatgpt/chatgpt_form.html -->
+{% extends 'website/base.html' %}
+
+{% block content %}
+  <h2>Interact with ChatGPT</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="prompt">Enter your prompt:</label><br>
+    <textarea id="prompt" name="prompt" rows="4" cols="50" required></textarea><br><br>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

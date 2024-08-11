@@ -1,0 +1,15 @@
+<!-- chatgpt/templates/chatgpt/chatgpt_history.html -->
+{% extends 'website/base.html' %}
+
+{% block content %}
+  <h2>Your ChatGPT Requests History</h2>
+  <ul>
+    {% for request in chat_requests %}
+      <li>
+        <strong>Prompt:</strong> {{ request.prompt }}<br>
+        <strong>Response:</strong> {{ request.response }}<br>
+        <small>Submitted on {{ request.created_at }}</small>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

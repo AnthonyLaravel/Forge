@@ -1,0 +1,14 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+    <h1>Welcome, {{ request.user.username }}!</h1>
+    <p>
+        {% if request.user.member.ebay_access_token %}
+            Your eBay account is connected.
+        {% else %}
+            You have not connected your eBay account yet. <a href="{% url 'ebay_authorize' %}">Connect now</a>.
+        {% endif %}
+    </p>
+    
+{% endblock %}
