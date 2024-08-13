@@ -1,0 +1,21 @@
+<!-- templates/suggest_category.html -->
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+<h1>Find the Best Category for Your Item</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="title">Item Title:</label>
+    <input type="text" name="title" id="title" required>
+    <button type="submit">Suggest Category</button>
+</form>
+
+{% if category_suggestion %}
+    <h2>Suggested Category</h2>
+    <p>{{ category_suggestion.categoryName }} (ID: {{ category_suggestion.categoryId }})</p>
+{% elif title %}
+    <p>No category suggestion found for "{{ title }}".</p>
+{% endif %}
+
+{% endblock %}

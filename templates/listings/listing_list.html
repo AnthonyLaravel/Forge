@@ -1,6 +1,7 @@
 {% extends 'website/base.html' %}
 
 {% block content %}
+    
   <h2>Your Listings</h2>
   <a href="{% url 'listing_create' %}">Create New Listing</a>
   <ul>
@@ -14,4 +15,5 @@
       </li>
     {% endfor %}
   </ul>
+    
 {% endblock %}

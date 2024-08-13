@@ -7,7 +7,7 @@ from django.dispatch import receiver
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='member')
     ebay_authorization_code = models.CharField(max_length=255, blank=True, null=True)
-    ebay_access_token = models.CharField(max_length=255, blank=True, null=True)
+    ebay_access_token = models.TextField(null=True, blank=True)
     token_expiry = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):

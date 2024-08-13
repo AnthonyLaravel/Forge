@@ -1,0 +1,65 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+    
+    <div class="container mt-5">
+        <h1 class="mb-4">eBay API Test</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="endpoint">API Endpoint:</label>
+                        <input type="text" class="form-control" name="endpoint" id="endpoint" placeholder="https://api.ebay.com/path/to/endpoint" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="request_body">Request Body (JSON):</label>
+                        <textarea class="form-control" name="request_body" id="request_body" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Request</button>
+                </form>
+            </div>
+        </div>
+
+        {% if api_test %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Most Recent Response</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Endpoint: {{ api_test.endpoint }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Request Time: {{ api_test.created_at }}</h6>
+                <pre class="bg-light p-3">{{ api_test.response_body }}</pre>
+            </div>
+        </div>
+        {% endif %}
+
+        <h2 class="mb-4">API Test History</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Endpoint</th>
+                        <th scope="col">Request Body</th>
+                        <th scope="col">Response Body</th>
+                        <th scope="col">Request Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in api_tests %}
+                    <tr>
+                        <td>{{ test.endpoint }}</td>
+                        <td><pre>{{ test.request_body }}</pre></td>
+                        <td><pre>{{ test.response_body }}</pre></td>
+                        <td>{{ test.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+{% endblock %}

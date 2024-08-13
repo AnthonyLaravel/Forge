@@ -1,19 +1,25 @@
 {% extends 'website/base.html' %}
 
 {% block content %}
-  <h2>Images for {{ listing.title }}</h2>
-  <a href="{% url 'image_create' listing.pk %}">Upload New Image</a>
-  <ul>
+    
+  <h2>Images for {{ listing.title }}</h2>  
+  <div class="row">
     {% for image in images %}
-      <li>
-        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="max-width:200px;">
-        <p>{{ image.alt_text }}</p>
-        <form action="{% url 'image_delete' listing.pk image.pk %}" method="POST" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit">Delete</button>
-        </form>
-      </li>
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-thumbnail">
+          <div class="caption">
+            <p>{{ image.alt_text }}</p>
+            <form action="{% url 'image_delete' listing.pk image.pk %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
+    
   <a href="{% url 'listing_list' %}">Back to Listings</a>
+    
 {% endblock %}

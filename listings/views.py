@@ -28,6 +28,7 @@ def listing_create(request):
 @login_required
 def listing_update(request, pk):
     listing = get_object_or_404(Listing, pk=pk, member=request.user.member)
+    images = Image.objects.filter(listing=listing)  # Retrieve all images for the listing
     if request.method == 'POST':
         form = ListingForm(request.POST, instance=listing)
         if form.is_valid():
@@ -35,7 +36,11 @@ def listing_update(request, pk):
             return redirect('listing_list')
     else:
         form = ListingForm(instance=listing)
-    return render(request, 'listings/listing_create.html', {'form': form})
+    return render(request, 'listings/listing_update.html', {
+        'form': form,
+        'listing': listing,
+        'images': images  # Pass the images to the template
+    })
 
 
 @login_required
@@ -73,11 +78,12 @@ def image_create(request, listing_pk):
 def image_delete(request, listing_pk, image_pk):
     listing = get_object_or_404(Listing, pk=listing_pk, member=request.user.member)
     image = get_object_or_404(Image, pk=image_pk, listing=listing)
+
     if request.method == 'POST':
         # Delete the image file from S3
         image.image.delete(save=False)
         # Delete the image object from the database
         image.delete()
         return redirect('image_list', listing_pk=listing.pk)
-    return render(request, 'images/image_confirm_delete.html', {'listing': listing, 'image': image})
 
+    return render(request, 'images/image_confirm_delete.html', {'listing': listing, 'image': image})

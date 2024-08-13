@@ -1,0 +1,22 @@
+<!-- chatgpt/templates/chatgpt/chatgpt_analyze_images.html -->
+{% extends 'website/base.html' %}
+
+{% block content %}
+    <h2>Analyze Images for Listing: {{ listing.title }}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            {% for image in images %}
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-thumbnail">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <input type="submit" value="Analyze Images">
+    </form>
+    
+{% endblock %}

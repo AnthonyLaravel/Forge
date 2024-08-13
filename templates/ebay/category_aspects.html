@@ -1,0 +1,38 @@
+<!-- templates/category_aspects.html -->
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+<h1>Aspects for Category: {{ category.category_name }} (ID: {{ category.category_id }})</h1>
+{% if aspects %}
+    <table>
+        <thead>
+            <tr>
+                <th>Aspect Name</th>
+                <th>Data Type</th>
+                <th>Mode</th>
+                <th>Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aspect in aspects %}
+                <tr>
+                    <td>{{ aspect.aspect_name }}</td>
+                    <td>{{ aspect.aspect_data_type }}</td>
+                    <td>{{ aspect.aspect_mode }}</td>
+                    <td>{{ aspect.aspect_usage }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No aspects found for this category.</p>
+{% endif %}
+
+{% if error %}
+    <p>Error: {{ error }}</p>
+{% endif %}
+
+
+{% endblock %}
+

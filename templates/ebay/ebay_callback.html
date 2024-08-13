@@ -1,14 +1,11 @@
 <!-- templates/ebay_callback.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eBay Authorization Successful</title>
-</head>
-<body>
+{% extends 'website/base.html' %}
+
+{% block centent %}
+
     <h1>eBay Authorization Successful</h1>
     <p>Your eBay account has been successfully authorized!</p>
     <a href="{% url 'dashboard' %}">Go to your dashboard</a>
-</body>
-</html>
+
+{% endblock %}
+
