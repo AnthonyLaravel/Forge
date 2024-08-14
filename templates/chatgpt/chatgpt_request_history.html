@@ -1,0 +1,35 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Chat Request History</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Prompt</th>
+                    <th>Response</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chat_request in chat_requests %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ chat_request.prompt }}</td>
+                        <td>{{ chat_request.response|default:"No response yet" }}</td>
+                        <td>{{ chat_request.created_at|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ chat_request.updated_at|date:"Y-m-d H:i:s" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No chat requests found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

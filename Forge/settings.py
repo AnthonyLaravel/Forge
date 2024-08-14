@@ -12,19 +12,24 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import base64
 import os
 from pathlib import Path
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Add .env variables anywhere before SECRET_KEY
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-287++78pqp70ns))s7!4uu=haiu*%z8a2^@eubvfagq$h)a*0m'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # OPENAI API KEY: keep this a secret! Maybe store in a YAML file later on.
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -122,8 +127,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# eBay API settings
+EBAY_CLIENT_ID = os.environ.get('EBAY_CLIENT_ID')
+EBAY_CLIENT_SECRET = os.environ.get('EBAY_CLIENT_SECRET')
+# EBAY_CLIENT_CREDENTIALS = 'Base64 encoded client_id:client_secret'
+EBAY_BASE64_AUTHORIZATION_TOKEN = base64.b64encode(b'{EBAY_CLIENT_ID}:{EBAY_CLIENT_SECRET}')
+EBAY_VERIFICATION_TOKEN = os.environ.get('EBAY_VERIFICATION_TOKEN')
+EBAY_REDIRECT_URI = 'Your Redirect URI'
+EBAY_SCOPE = 'https://api.ebay.com/oauth/api_scope'
 
-
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'listingforge'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
 
 # django-storages settings
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

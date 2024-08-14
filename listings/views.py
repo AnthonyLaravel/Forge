@@ -7,8 +7,11 @@ from .forms import ListingForm
 
 @login_required
 def listing_list(request):
-    listings = Listing.objects.filter(member=request.user.member)
-    return render(request, 'listings/listing_list.html', {'listings': listings})
+    listings = Listing.objects.filter(member__user=request.user).order_by('-created_at')
+    context = {
+        'listings': listings
+    }
+    return render(request, 'listings/listing_list.html', context)
 
 
 @login_required

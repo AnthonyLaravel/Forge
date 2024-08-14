@@ -18,6 +18,17 @@
                     <a class="nav-link" href="{% url 'api_test' %}">eBay API</a>
                 </li>
             {% endif %}
+            {% if request.path != '/dashboard/chatgpt/' %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      ChatGPT
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-light">
+                    <li><a class="dropdown-item" href="{% url 'chatgpt_interact' %}">Test</a></li>
+                    <li><a class="dropdown-item" href="{% url 'chatgpt_request_history' %}">History</a></li>
+                  </ul>
+                </li>
+            {% endif %}
         {% endif %}
           
         {% if request.path != '/dashboard/' %}

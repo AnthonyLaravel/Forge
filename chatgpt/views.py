@@ -47,6 +47,14 @@ def chatgpt_history(request):
     chat_requests = ChatRequest.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'chatgpt/chatgpt_history.html', {'chat_requests': chat_requests})
 
+@login_required
+def chat_request_history(request):
+    chat_requests = ChatRequest.objects.filter(user=request.user).order_by('-created_at')
+    context = {
+        'chat_requests': chat_requests
+    }
+    return render(request, 'chatgpt/chatgpt_request_history.html', context)
+
 
 @login_required
 def analyze_images(request, listing_id):

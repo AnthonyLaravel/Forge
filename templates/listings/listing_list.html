@@ -2,18 +2,49 @@
 
 {% block content %}
     
-  <h2>Your Listings</h2>
-  <a href="{% url 'listing_create' %}">Create New Listing</a>
-  <ul>
-    {% for listing in listings %}
-      <li>
-        <a href="{% url 'listing_update' listing.pk %}">{{ listing.title }}</a> - ${{ listing.price }}
-        <form action="{% url 'listing_delete' listing.pk %}" method="POST" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit">Delete</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
-    
+<div class="container mt-4">
+    <h2 class="mb-4">My Listings</h2>
+    <a href="{% url 'listing_create' %}">Create New Listing</a>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>Condition</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for listing in listings %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'listing_update' listing.pk %}">{{ listing.title }}</a></td>
+                        <td>${{ listing.price }}</td>
+                        <td>{{ listing.quantity }}</td>
+                        <td>{{ listing.category }}</td>
+                        <td>{{ listing.condition|capfirst }}</td>
+                        <td>{{ listing.created_at|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ listing.updated_at|date:"Y-m-d H:i:s" }}</td>
+                        <td>
+                            <form action="{% url 'listing_delete' listing.pk %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center">No listings found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {% endblock %}
