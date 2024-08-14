@@ -7,6 +7,20 @@ import requests
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
+from django.views.generic import ListView
+
+import os
+import json
+import base64
+import hashlib
+import logging
+from OpenSSL import crypto
+from rest_framework import status
+from rest_framework.views import APIView
+from django.http import JsonResponse
+from .models import EbayApiLog
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -150,5 +164,120 @@ def api_test_view(request):
     return render(request, 'ebay/api_test.html', {'api_test': api_test, 'api_tests': api_tests})
 
 
+class EbayApiLogListView(ListView):
+    model = EbayApiLog
+    template_name = 'ebay/ebay_api_log_list.html'
+    context_object_name = 'logs'
+    paginate_by = 10  # Number of logs to display per page
+    ordering = ['-timestamp']  # Order logs by latest first
 
 
+def log_request_response(request, response_status, response_body):
+    EbayApiLog.objects.create(
+        endpoint=request.path,
+        request_method=request.method,
+        request_headers=json.dumps(dict(request.headers)),
+        request_body=request.body.decode('utf-8') if request.body else None,
+        response_status=response_status,
+        response_body=response_body
+    )
+
+
+class EbayMarketplaceAccountDeletion(APIView):
+    CHALLENGE_CODE = 'challenge_code'
+    VERIFICATION_TOKEN = settings.EBAY_VERIFICATION_TOKEN
+    ENDPOINT = 'https://listingforge.com/dashboard/ebay/ebay_marketplace_account_deletion/'
+    X_EBAY_SIGNATURE = 'X-Ebay-Signature'
+    EBAY_BASE64_AUTHORIZATION_TOKEN = settings.EBAY_BASE64_AUTHORIZATION_TOKEN
+
+    def get(self, request):
+        """
+        Get challenge code and return challengeResponse: challengeCode + verificationToken + endpoint
+        :return: Response
+        """
+        challenge_code = request.GET.get(self.CHALLENGE_CODE)
+        if not challenge_code:
+            logger.error("Missing challenge code")
+            return JsonResponse({"error": "Missing challenge code"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not self.VERIFICATION_TOKEN:
+            logger.error("Verification token not set")
+            return JsonResponse({"error": "Verification token not set"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if not self.ENDPOINT:
+            logger.error("Endpoint not set")
+            return JsonResponse({"error": "Endpoint not set"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        challenge_response = hashlib.sha256(
+            challenge_code.encode('utf-8') +
+            self.VERIFICATION_TOKEN.encode('utf-8') +
+            self.ENDPOINT.encode('utf-8')
+        )
+        response_parameters = {
+            "challengeResponse": challenge_response.hexdigest()
+        }
+        return JsonResponse(response_parameters, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        x_ebay_signature = request.headers.get(self.X_EBAY_SIGNATURE)
+        x_ebay_signature_decoded = json.loads(base64.b64decode(x_ebay_signature).decode('utf-8'))
+        kid = x_ebay_signature_decoded['kid']
+        signature = x_ebay_signature_decoded['signature']
+
+        public_key = None
+        try:
+            ebay_verification_url = f'https://api.ebay.com/commerce/notification/v1/public_key/{kid}'
+            oauth_access_token = self.get_oauth_token()
+            headers = {'Authorization': f'Bearer {oauth_access_token}'}
+            public_key_request = requests.get(url=ebay_verification_url, headers=headers, data={})
+            if public_key_request.status_code == 200:
+                public_key_response = public_key_request.json()
+                public_key = public_key_response['key']
+        except Exception as e:
+            logger.error(f"Error calling getPublicKey Notification API. Error: {e}")
+            response_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+            response_body = "{}"
+            log_request_response(request, response_status, response_body)
+            return JsonResponse({}, status=response_status)
+
+        pkey = crypto.load_publickey(crypto.FILETYPE_PEM, self.get_public_key_into_proper_format(public_key))
+        certification = crypto.X509()
+        certification.set_pubkey(pkey)
+        notification_payload = request.body
+        signature_decoded = base64.b64decode(signature)
+        try:
+            crypto.verify(certification, signature_decoded, notification_payload, 'sha1')
+        except crypto.Error as e:
+            logger.warning(f"Signature Invalid. Error: {e}")
+            response_status = status.HTTP_412_PRECONDITION_FAILED
+            response_body = "{}"
+            log_request_response(request, response_status, response_body)
+            return JsonResponse({}, status=response_status)
+        except Exception as e:
+            logger.error(f"Error performing cryptographic validation. Error: {e}")
+            response_status = status.HTTP_412_PRECONDITION_FAILED
+            response_body = "{}"
+            log_request_response(request, response_status, response_body)
+            return JsonResponse({}, status=response_status)
+
+        # TODO: Implement your data removal logic here
+
+        response_status = status.HTTP_200_OK
+        response_body = "{}"
+        log_request_response(request, response_status, response_body)
+        return JsonResponse({}, status=response_status)
+
+    def get_oauth_token(self):
+        url = 'https://api.ebay.com/identity/v1/oauth2/token'
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': f"Basic {self.EBAY_BASE64_AUTHORIZATION_TOKEN}"
+        }
+        payload = 'grant_type=client_credentials&scope=https%3A%2F%2Fapi.ebay.com%2Foauth%2Fapi_scope'
+        request = requests.post(url=url, headers=headers, data=payload)
+        data = request.json()
+        return data['access_token']
+
+    @staticmethod
+    def get_public_key_into_proper_format(public_key):
+        return public_key[:26] + '\n' + public_key[26:-24] + '\n' + public_key[-24:]

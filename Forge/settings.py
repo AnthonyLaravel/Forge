@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import base64
 import os
 from pathlib import Path
 
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-287++78pqp70ns))s7!4uu=haiu*%z8a2^@eubvfagq$h)a*0m'
 
 # OPENAI API KEY: keep this a secret! Maybe store in a YAML file later on.
-OPENAI_API_KEY = 'sk-proj-UmhGVdKc2WsgbVurek59T3BlbkFJabrWpLU3oReDNz3WmX3V'
+OPENAI_API_KEY = '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'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -122,20 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# eBay API settings
-EBAY_CLIENT_ID = 'Your eBay Client ID'
-EBAY_CLIENT_CREDENTIALS = 'Base64 encoded client_id:client_secret'
-EBAY_REDIRECT_URI = 'Your redirect URI'
-EBAY_SCOPE = 'https://api.ebay.com/oauth/api_scope'
 
-# AWS S3 Configuration
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-AWS_STORAGE_BUCKET_NAME = 'listingforge'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
 
 # django-storages settings
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
@@ -174,3 +162,23 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

@@ -31,3 +31,16 @@ class ApiTest(models.Model):
 
     def __str__(self):
         return f"Test by {self.member} at {self.created_at} to {self.endpoint}"
+
+
+class EbayApiLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    endpoint = models.CharField(max_length=255)
+    request_method = models.CharField(max_length=10)
+    request_headers = models.TextField()
+    request_body = models.TextField(null=True, blank=True)
+    response_status = models.IntegerField()
+    response_body = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.timestamp} - {self.endpoint} - {self.request_method}'

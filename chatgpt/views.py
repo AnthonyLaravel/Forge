@@ -100,3 +100,5 @@ def analyze_images(request, listing_id):
         return redirect('dashboard')
 
     return render(request, 'chatgpt/chatgpt_analyze_images.html', {'listing': listing, 'images': images})
+
+

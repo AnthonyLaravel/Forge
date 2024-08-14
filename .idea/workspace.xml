@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea2b2d4b-3cfc-4553-be0d-c081f19cd01e" name="Changes" comment="Forge" />
+    <list default="true" id="ea2b2d4b-3cfc-4553-be0d-c081f19cd01e" name="Changes" comment="Forge">
+      <change afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ebay/migrations/0006_ebayapilog.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/ebay/ebay_api_log_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Forge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Forge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatgpt/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatgpt/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebay/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ebay/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebay/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ebay/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebay/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ebay/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ebay/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ebay/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/website/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/website/base.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +52,7 @@
     <setting file="file://$PROJECT_DIR$/listings/views.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -136,7 +149,7 @@
       <workItem from="1723304104368" duration="6000" />
       <workItem from="1723304121736" duration="52258000" />
       <workItem from="1723414687067" duration="578000" />
-      <workItem from="1723415290671" duration="11949000" />
+      <workItem from="1723415290671" duration="20636000" />
     </task>
     <task id="LOCAL-00001" summary="Django Shell">
       <option name="closed" value="true" />
@@ -194,7 +207,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723512399463</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Forge">
+      <option name="closed" value="true" />
+      <created>1723512758002</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1723512758002</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
