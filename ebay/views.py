@@ -29,10 +29,10 @@ logger = logging.getLogger(__name__)
 def ebay_authorize(request):
     # Redirect the user to eBay's authorization page
     # ebay_auth_url = f"https://auth.ebay.com/oauth2/authorize?client_id={settings.EBAY_CLIENT_ID}&redirect_uri={settings.EBAY_REDIRECT_URI}&response_type=code&scope={settings.EBAY_SCOPE}"
-    ebay_auth_url = "https://auth.sandbox.ebay.com/oauth2/authorize?client_id=AnthonyG-SpeedLis-SBX-ba2849bbb-0589fd43&response_type=code&redirect_uri=Anthony_Grady-AnthonyG-SpeedL-azxzeifax&scope=https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/buy.order.readonly https://api.ebay.com/oauth/api_scope/buy.guest.order https://api.ebay.com/oauth/api_scope/sell.marketing.readonly https://api.ebay.com/oauth/api_scope/sell.marketing https://api.ebay.com/oauth/api_scope/sell.inventory.readonly https://api.ebay.com/oauth/api_scope/sell.inventory https://api.ebay.com/oauth/api_scope/sell.account.readonly https://api.ebay.com/oauth/api_scope/sell.account https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly https://api.ebay.com/oauth/api_scope/sell.fulfillment https://api.ebay.com/oauth/api_scope/sell.analytics.readonly https://api.ebay.com/oauth/api_scope/sell.marketplace.insights.readonly https://api.ebay.com/oauth/api_scope/commerce.catalog.readonly https://api.ebay.com/oauth/api_scope/buy.shopping.cart https://api.ebay.com/oauth/api_scope/buy.offer.auction https://api.ebay.com/oauth/api_scope/commerce.identity.readonly https://api.ebay.com/oauth/api_scope/commerce.identity.email.readonly https://api.ebay.com/oauth/api_scope/commerce.identity.phone.readonly https://api.ebay.com/oauth/api_scope/commerce.identity.address.readonly https://api.ebay.com/oauth/api_scope/commerce.identity.name.readonly https://api.ebay.com/oauth/api_scope/commerce.identity.status.readonly https://api.ebay.com/oauth/api_scope/sell.finances https://api.ebay.com/oauth/api_scope/sell.payment.dispute https://api.ebay.com/oauth/api_scope/sell.item.draft https://api.ebay.com/oauth/api_scope/sell.item https://api.ebay.com/oauth/api_scope/sell.reputation https://api.ebay.com/oauth/api_scope/sell.reputation.readonly https://api.ebay.com/oauth/api_scope/commerce.notification.subscription https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly https://api.ebay.com/oauth/api_scope/sell.stores https://api.ebay.com/oauth/api_scope/sell.stores.readonly"
+    ebay_auth_url = "https://auth.ebay.com/oauth2/authorize?client_id=AnthonyG-SpeedLis-PRD-da27f4fb1-6302752e&response_type=code&redirect_uri=Anthony_Grady-AnthonyG-SpeedL-keycu&scope=https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/sell.marketing.readonly https://api.ebay.com/oauth/api_scope/sell.marketing https://api.ebay.com/oauth/api_scope/sell.inventory.readonly https://api.ebay.com/oauth/api_scope/sell.inventory https://api.ebay.com/oauth/api_scope/sell.account.readonly https://api.ebay.com/oauth/api_scope/sell.account https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly https://api.ebay.com/oauth/api_scope/sell.fulfillment https://api.ebay.com/oauth/api_scope/sell.analytics.readonly https://api.ebay.com/oauth/api_scope/sell.finances https://api.ebay.com/oauth/api_scope/sell.payment.dispute https://api.ebay.com/oauth/api_scope/commerce.identity.readonly https://api.ebay.com/oauth/api_scope/sell.reputation https://api.ebay.com/oauth/api_scope/sell.reputation.readonly https://api.ebay.com/oauth/api_scope/commerce.notification.subscription https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly https://api.ebay.com/oauth/api_scope/sell.stores https://api.ebay.com/oauth/api_scope/sell.stores.readonly"
     return redirect(ebay_auth_url)
 
-
+"""
 @login_required
 def ebay_callback(request):
     code = request.GET.get('code')
@@ -40,31 +40,57 @@ def ebay_callback(request):
         member = request.user.member
         member.ebay_authorization_code = code
         member.save()
-        # Exchange code for an access token here
+        exchange_code_for_token()
+    else:
+        return redirect('')
+
+    messages.error(request, 'Please check your code and try again.')
     return redirect('dashboard')
+"""
 
 
 @login_required
-def exchange_code_for_token(request):
-    member = request.user.member
-    if member.ebay_authorization_code:
-        url = "https://api.ebay.com/identity/v1/oauth2/token"
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': f'Basic {settings.EBAY_CLIENT_CREDENTIALS}'
-        }
-        data = {
-            'grant_type': 'authorization_code',
-            'code': member.ebay_authorization_code,
-            'redirect_uri': settings.EBAY_REDIRECT_URI
-        }
-        response = requests.post(url, headers=headers, data=data)
-        if response.status_code == 200:
-            json_response = response.json()
-            member.ebay_access_token = json_response['access_token']
-            member.token_expiry = timezone.now() + timedelta(seconds=json_response['expires_in'])
-            member.save()
-            # Redirect to the dashboard or another page
+def ebay_success(request):
+    code = request.GET.get('code')
+    if code:
+        member = request.user.member
+        member.ebay_authorization_code = code
+        member.save()
+        if member.ebay_authorization_code:
+            url = "https://api.ebay.com/identity/v1/oauth2/token"
+            headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': f'Basic {settings.EBAY_BASE64_AUTHORIZATION_TOKEN}'
+            }
+            data = {
+                'grant_type': 'authorization_code',
+                'code': member.ebay_authorization_code,
+                'redirect_uri': settings.EBAY_REDIRECT_URI
+            }
+            response = requests.post(url, headers=headers, data=data)
+            if response.status_code == 200:
+                json_response = response.json()
+                member.ebay_access_token = json_response['access_token']
+                member.ebay_token_expires_in = timezone.now() + timedelta(seconds=json_response['expires_in'])
+                member.ebay_refresh_token = json_response['refresh_token']
+                member.ebay_refresh_token_expires_in = timezone.now() + timedelta(seconds=json_response['refresh_token_expires_in'])
+                member.ebay_token_type = json_response['token_type']
+                member.save()
+                # Redirect to the dashboard or another page
+                messages.success(request, 'Your eBay account has successfully been linked! Lets get to work!')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Token Exchanged Failed')
+        else:
+            messages.error(request, 'Your eBay authorization code was not saved properly, please try again.')
+    else:
+        messages.error(request, 'Your eBay account could not be linked. If the problem persists please reach out to us at support@listingforge.com. Thank you!')
+        redirect('dashboard')
+
+@login_required
+def ebay_declined(request):
+    messages.error(request,
+                   'Hmmmm, something went wrong with linking your account. If the issue persists please contact us at support@listingforge.com. Thank you!')
     return redirect('dashboard')
 
 
@@ -127,7 +153,7 @@ def retrieve_category_aspects(request, category_id, category_tree_id):
         messages.error(request, response.text)
         messages.error(request, f'URL:{url}')
         messages.error(request, f'headers:{headers}')
-        messages.error(request, f'Token Expiration: {request.user.member.token_expiry}')
+        messages.error(request, f'Token Expiration: {request.user.member.ebay_token_expires_in}')
         return render(request, 'ebay/category_aspects.html', {'error': 'Failed to retrieve category aspects'})
 
 

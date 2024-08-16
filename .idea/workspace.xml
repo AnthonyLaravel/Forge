@@ -10,6 +10,7 @@
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ebay/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ebay/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ebay/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ebay/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/member/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/member/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +144,7 @@
       <workItem from="1723304104368" duration="6000" />
       <workItem from="1723304121736" duration="52258000" />
       <workItem from="1723414687067" duration="578000" />
-      <workItem from="1723415290671" duration="36231000" />
+      <workItem from="1723415290671" duration="41631000" />
     </task>
     <task id="LOCAL-00001" summary="Django Shell">
       <option name="closed" value="true" />
@@ -225,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723668761533</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Forge">
+      <option name="closed" value="true" />
+      <created>1723834991051</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1723834991051</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

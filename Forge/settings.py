@@ -133,8 +133,8 @@ EBAY_CLIENT_ID = os.environ.get('EBAY_CLIENT_ID')
 EBAY_CLIENT_SECRET = os.environ.get('EBAY_CLIENT_SECRET')
 # EBAY_CLIENT_CREDENTIALS = 'Base64 encoded client_id:client_secret'
 EBAY_BASE64_AUTHORIZATION_TOKEN = base64.b64encode(b'{EBAY_CLIENT_ID}:{EBAY_CLIENT_SECRET}')
-EBAY_VERIFICATION_TOKEN = os.environ.get('EBAY_VERIFICATION_TOKEN')
-EBAY_REDIRECT_URI = 'Your Redirect URI'
+EBAY_VERIFICATION_TOKEN = os.environ.get('EBAY_VERIFICATION_TOKEN') # used for marketplace account delete notification
+EBAY_REDIRECT_URI = os.environ.get('EBAY_REDIRECT_URI')
 EBAY_SCOPE = 'https://api.ebay.com/oauth/api_scope'
 
 # AWS S3 Configuration
