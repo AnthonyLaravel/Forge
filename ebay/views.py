@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 from django.views.generic import ListView
+from django.views.decorators.csrf import csrf_exempt
 
 import os
 import json
@@ -219,65 +220,15 @@ class EbayMarketplaceAccountDeletion(APIView):
         return JsonResponse(response_parameters, status=status.HTTP_200_OK)
 
     def post(self, request):
-        x_ebay_signature = request.headers.get(self.X_EBAY_SIGNATURE)
-        x_ebay_signature_decoded = json.loads(base64.b64decode(x_ebay_signature).decode('utf-8'))
-        kid = x_ebay_signature_decoded['kid']
-        signature = x_ebay_signature_decoded['signature']
-
-        public_key = None
         try:
-            ebay_verification_url = f'https://api.ebay.com/commerce/notification/v1/public_key/{kid}'
-            oauth_access_token = self.get_oauth_token()
-            headers = {'Authorization': f'Bearer {oauth_access_token}'}
-            public_key_request = requests.get(url=ebay_verification_url, headers=headers, data={})
-            if public_key_request.status_code == 200:
-                public_key_response = public_key_request.json()
-                public_key = public_key_response['key']
+            # Parse the JSON payload from eBay's request
+            notification_data = request.body.decode('utf-8')
+
+            # Save the notification data in the database
+
+            # Respond with a success status to acknowledge receipt of the notification
+            return JsonResponse({'message': 'Notification received and acknowledged'}, status=200)
+
         except Exception as e:
-            logger.error(f"Error calling getPublicKey Notification API. Error: {e}")
-            response_status = status.HTTP_500_INTERNAL_SERVER_ERROR
-            response_body = "{}"
-            log_request_response(request, response_status, response_body)
-            return JsonResponse({}, status=response_status)
-
-        pkey = crypto.load_publickey(crypto.FILETYPE_PEM, self.get_public_key_into_proper_format(public_key))
-        certification = crypto.X509()
-        certification.set_pubkey(pkey)
-        notification_payload = request.body
-        signature_decoded = base64.b64decode(signature)
-        try:
-            crypto.verify(certification, signature_decoded, notification_payload, 'sha1')
-        except crypto.Error as e:
-            logger.warning(f"Signature Invalid. Error: {e}")
-            response_status = status.HTTP_412_PRECONDITION_FAILED
-            response_body = "{}"
-            log_request_response(request, response_status, response_body)
-            return JsonResponse({}, status=response_status)
-        except Exception as e:
-            logger.error(f"Error performing cryptographic validation. Error: {e}")
-            response_status = status.HTTP_412_PRECONDITION_FAILED
-            response_body = "{}"
-            log_request_response(request, response_status, response_body)
-            return JsonResponse({}, status=response_status)
-
-        # TODO: Implement your data removal logic here
-
-        response_status = status.HTTP_200_OK
-        response_body = "{}"
-        log_request_response(request, response_status, response_body)
-        return JsonResponse({}, status=response_status)
-
-    def get_oauth_token(self):
-        url = 'https://api.ebay.com/identity/v1/oauth2/token'
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': f"Basic {self.EBAY_BASE64_AUTHORIZATION_TOKEN}"
-        }
-        payload = 'grant_type=client_credentials&scope=https%3A%2F%2Fapi.ebay.com%2Foauth%2Fapi_scope'
-        request = requests.post(url=url, headers=headers, data=payload)
-        data = request.json()
-        return data['access_token']
-
-    @staticmethod
-    def get_public_key_into_proper_format(public_key):
-        return public_key[:26] + '\n' + public_key[26:-24] + '\n' + public_key[-24:]
+            # Log or handle any errors that occur
+            return JsonResponse({'error': str(e)}, status=500)

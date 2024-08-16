@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'listings.apps.ListingsConfig',
     'chatgpt.apps.ChatgptConfig',
     'storages',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
