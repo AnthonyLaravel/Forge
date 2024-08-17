@@ -53,7 +53,7 @@ def ebay_callback(request):
 @login_required
 class EbayAccountLinked(APIView):
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         code = request.GET.get('code')
         expires_in = request.GET.get('expires_in')
         if code and expires_in:
