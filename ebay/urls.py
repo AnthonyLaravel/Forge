@@ -9,6 +9,6 @@ urlpatterns = [
     path('declined/', views.ebay_declined, name='ebay_declined'),
     path('suggest-category/', views.suggest_category, name='suggest_category'),
     path('category-aspects/<str:category_id>/<str:category_tree_id>/', views.retrieve_category_aspects, name='category_aspects'),
-    path('accepted/', EbayAccountLinked, name='ebay_success'),
+    path('accepted/', EbayAccountLinked.as_view(), name='accepted'),
     path('ebay_marketplace_account_deletion/', EbayMarketplaceAccountDeletion.as_view(), name='ebay_marketplace_account_deletion'),
 ]
