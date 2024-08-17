@@ -52,12 +52,11 @@ def ebay_callback(request):
 
 @login_required
 class EbayAccountLinked(APIView):
-    AUTHORIZATION_CODE = 'code'
-    EXPIRES_IN = 'expires_in'
-    def get(self, request, AUTHORIZATION_CODE=None):
+
+    def get(self, request):
         code = request.GET.get('code')
         expires_in = request.GET.get('expires_in')
-        if AUTHORIZATION_CODE:
+        if code and expires_in:
             member = request.user.member
             member.ebay_authorization_code = code
             member.ebay_authorization_code_expires_in = expires_in
@@ -79,8 +78,7 @@ class EbayAccountLinked(APIView):
                     member.ebay_access_token = json_response['access_token']
                     member.ebay_token_expires_in = timezone.now() + timedelta(seconds=json_response['expires_in'])
                     member.ebay_refresh_token = json_response['refresh_token']
-                    member.ebay_refresh_token_expires_in = timezone.now() + timedelta(
-                        seconds=json_response['refresh_token_expires_in'])
+                    member.ebay_refresh_token_expires_in = timezone.now() + timedelta(seconds=json_response['refresh_token_expires_in'])
                     member.ebay_token_type = json_response['token_type']
                     member.save()
                     # Redirect to the dashboard or another page
@@ -93,7 +91,8 @@ class EbayAccountLinked(APIView):
                 messages.error(request, 'Your eBay authorization code was not saved properly, please try again.')
                 return redirect('ebay_authorize')
         else:
-            messages.error(request,'Your eBay account could not be linked. If the problem persists please reach out to us at support@listingforge.com. Thank you!')
+            messages.error(request,
+                           'Your eBay account could not be linked. If the problem persists please reach out to us at support@listingforge.com. Thank you!')
             return redirect('dashboard')
 
 
